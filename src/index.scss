@@ -24,3 +24,33 @@
   font-weight: 400;
   font-style: normal;
 }
+
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+button {
+  cursor: pointer;
+}
+
+input,
+button {
+  font-family: var(--font-family), serif;
+}
+
+hr {
+  background: #ededed;
+  height: 1px;
+  width: 100%;
+  border: none;
+  margin-block: 25px;
+}
+
+img {
+  display: block;
+}

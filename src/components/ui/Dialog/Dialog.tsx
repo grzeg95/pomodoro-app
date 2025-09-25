@@ -3,6 +3,9 @@ import {createPortal} from 'react-dom';
 import {useFocusTrap} from '../../../hooks/useFocusTrap';
 import styles from './Dialog.module.scss';
 
+let dialogIdCounter = 0;
+const dialogStack: number[] = [];
+
 export type DialogRef = {
   close: () => void;
 };
@@ -16,6 +19,10 @@ export type DialogProps = {
 
 export function Dialog({children, onClose, isOpen, ref}: DialogProps) {
 
+  const scrollRef = useRef({
+    y: 0,
+    x: 0
+  });
   const dialogRef = useRef<HTMLDivElement>(null);
 
   const trapRef = useFocusTrap({
@@ -33,6 +40,26 @@ export function Dialog({children, onClose, isOpen, ref}: DialogProps) {
   useEffect(() => {
 
     if (isOpen) {
+
+      dialogIdCounter++;
+      dialogStack.push(dialogIdCounter);
+
+      // check for removing scroll
+
+      const sx = window.scrollX;
+      const sy = window.scrollY;
+
+      scrollRef.current.x = sx;
+      scrollRef.current.y = sy;
+
+      const body = document.body;
+
+      if (sy > 0) {
+        body.style.top = `-${sy}px`;
+        body.style.left = `-${sx}px`;
+        body.classList.add('no-scroll');
+      }
+
       const handleKeyDown = (event: KeyboardEvent) => {
         if (event.key === 'Escape') {
           onClose?.();
@@ -41,7 +68,29 @@ export function Dialog({children, onClose, isOpen, ref}: DialogProps) {
 
       window.addEventListener('keydown', handleKeyDown);
 
-      return () => window.removeEventListener('keydown', handleKeyDown);
+      return () => {
+
+        const index = dialogStack.indexOf(dialogIdCounter);
+        dialogStack.splice(index, 1);
+
+        if (dialogStack.length === 0) {
+
+          dialogIdCounter = 0;
+
+          const body = document.body;
+
+          if (body.classList.contains('no-scroll')) {
+
+            body.classList.remove('no-scroll');
+
+            window.scrollTo(scrollRef.current.x, scrollRef.current.y);
+            body.style.top = 'auto';
+            body.style.left = 'auto';
+          }
+        }
+
+        window.removeEventListener('keydown', handleKeyDown)
+      };
     }
   }, [isOpen, onClose]);
 

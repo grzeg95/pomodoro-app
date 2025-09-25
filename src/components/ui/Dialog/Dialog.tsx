@@ -19,10 +19,7 @@ export type DialogProps = {
 
 export function Dialog({children, onClose, isOpen, ref}: DialogProps) {
 
-  const scrollRef = useRef({
-    y: 0,
-    x: 0
-  });
+  const dialogId = useRef(-1);
   const dialogRef = useRef<HTMLDivElement>(null);
 
   const trapRef = useFocusTrap({
@@ -37,28 +34,49 @@ export function Dialog({children, onClose, isOpen, ref}: DialogProps) {
     };
   }, [onClose]);
 
+  function getScrollbarWidth() {
+
+    const scrollDiv = document.createElement('div');
+
+    scrollDiv.style.visibility = 'hidden';
+    scrollDiv.style.overflow = 'scroll';
+    scrollDiv.style.position = 'absolute';
+    scrollDiv.style.top = '-9999px';
+    scrollDiv.style.width = '100px';
+    scrollDiv.style.height = '100px';
+
+    document.body.appendChild(scrollDiv);
+
+    const scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+    document.body.removeChild(scrollDiv);
+
+    return scrollbarWidth;
+  }
+
+  function isFirstDialog() {
+    return dialogStack.indexOf(dialogId.current) === 0;
+  }
+
   useEffect(() => {
+
+    function updateScrollVisibility() {
+      const visible = document.documentElement.scrollHeight > window.innerHeight;
+
+      if (visible) {
+        const scrollbarWidth = getScrollbarWidth();
+        document.body.style.paddingRight = `${scrollbarWidth}px`;
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.paddingRight = '0px';
+        document.body.style.overflow = 'auto';
+        document.body.style.overflow = 'auto';
+      }
+    }
 
     if (isOpen) {
 
-      dialogIdCounter++;
+      dialogId.current = ++dialogIdCounter;
       dialogStack.push(dialogIdCounter);
-
-      // check for removing scroll
-
-      const sx = window.scrollX;
-      const sy = window.scrollY;
-
-      scrollRef.current.x = sx;
-      scrollRef.current.y = sy;
-
-      const body = document.body;
-
-      if (sy > 0) {
-        body.style.top = `-${sy}px`;
-        body.style.left = `-${sx}px`;
-        body.classList.add('no-scroll');
-      }
 
       const handleKeyDown = (event: KeyboardEvent) => {
         if (event.key === 'Escape') {
@@ -68,28 +86,28 @@ export function Dialog({children, onClose, isOpen, ref}: DialogProps) {
 
       window.addEventListener('keydown', handleKeyDown);
 
+      if (isFirstDialog()) {
+        updateScrollVisibility();
+        window.addEventListener('resize', updateScrollVisibility);
+      }
+
       return () => {
+
+        if (isFirstDialog()) {
+          window.removeEventListener('resize', updateScrollVisibility);
+          document.body.style.paddingRight = '0px';
+          document.body.style.overflow = 'auto';
+          document.body.style.overflow = 'auto';
+        }
+
+        window.removeEventListener('keydown', handleKeyDown);
 
         const index = dialogStack.indexOf(dialogIdCounter);
         dialogStack.splice(index, 1);
 
         if (dialogStack.length === 0) {
-
           dialogIdCounter = 0;
-
-          const body = document.body;
-
-          if (body.classList.contains('no-scroll')) {
-
-            body.classList.remove('no-scroll');
-
-            window.scrollTo(scrollRef.current.x, scrollRef.current.y);
-            body.style.top = 'auto';
-            body.style.left = 'auto';
-          }
         }
-
-        window.removeEventListener('keydown', handleKeyDown)
       };
     }
   }, [isOpen, onClose]);

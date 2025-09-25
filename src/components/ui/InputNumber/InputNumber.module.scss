@@ -1,54 +1,65 @@
 .input-number-label {
+
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
   font-size: 0.75rem;
   color: #808080;
-}
+  flex-grow: 1;
 
-.input-number-wrapper {
-
-  display: flex;
-  user-select: none;
-
-  &:has(input:focus-visible) {
-    outline: 2px solid #141932;
-    border-radius: 1.25rem;
-  }
-
-  input {
-    background: #eef1fa;
-    border: none;
-    border-top-left-radius: 1.25rem;
-    border-bottom-left-radius: 1.25rem;
-    padding: 1.25rem 0 1.25rem 1.25rem;
-    outline: none;
-    width: 100%;
-  }
-
-  .input-number-buttons {
+  .input-number-wrapper {
 
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background: #eef1fa;
-    border-top-right-radius: 1.25rem;
-    border-bottom-right-radius: 1.25rem;
-    padding-right: 0.5rem;
+    user-select: none;
 
-    button {
+    &:has(input:focus-visible) {
+      outline: 2px solid #141932;
+      border-radius: 1.25rem;
+    }
 
+    input {
+
+      background: #eef1fa;
       border: none;
-      background: transparent;
-      cursor: pointer;
+      border-top-left-radius: 1.25rem;
+      border-bottom-left-radius: 1.25rem;
+      padding: 1.25rem 0 1.25rem 1.25rem;
       outline: none;
-      padding-inline: 0.5rem;
-      height: 100%;
+      width: 100%;
+      -moz-appearance: textfield;
 
-      &:hover,
-      &:focus-visible {
-        svg path {
-          stroke-opacity: 1;
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        /* display: none; <- Crashes Chrome on hover */
+        -webkit-appearance: none;
+        margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+      }
+    }
+
+    .input-number-buttons {
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: #eef1fa;
+      border-top-right-radius: 1.25rem;
+      border-bottom-right-radius: 1.25rem;
+      padding-right: 0.5rem;
+
+      button {
+
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        outline: none;
+        padding-inline: 0.5rem;
+        height: 100%;
+
+        &:hover,
+        &:focus-visible {
+          svg path {
+            stroke-opacity: 1;
+          }
         }
       }
     }

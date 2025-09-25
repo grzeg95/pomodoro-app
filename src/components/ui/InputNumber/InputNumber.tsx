@@ -28,6 +28,7 @@ export function InputNumber({ min, max, value, onChange, label }: InputNumberPro
       {label}
       <div className={styles['input-number-wrapper']}>
         <input
+          type="number"
           className={styles['input-number']}
           min={min}
           max={max}

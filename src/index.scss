@@ -1,0 +1,26 @@
+@font-face {
+  font-family: 'Archivo Black';
+  src:
+    local('Archivo Black'),
+    url('/fonts/ArchivoBlack-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Epunda Slab';
+  src:
+    local('Epunda Slab'),
+    url('/fonts/EpundaSlab-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src:
+    local('Roboto'),
+    url('/fonts/Roboto_Condensed-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}

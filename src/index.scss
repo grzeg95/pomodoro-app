@@ -32,6 +32,10 @@
 
 body {
   margin: 0;
+  background: #1E2140;
+  --font-family: 'Archivo Black';
+  --color-accent: #f87070;
+  font-family: var(--font-family), serif;
 }
 
 button {

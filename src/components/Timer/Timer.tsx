@@ -12,35 +12,59 @@ type TimerProps = {
 export function Timer({timerOption = 'pomodoro'}: TimerProps) {
 
   const settings = useSelector((state: RootState) => state.setting);
+
   const [timer, setTimer] = useState<Timer>({
     state: null,
-    remaining: settings[timerOption] * 60,
+    remaining: settings[timerOption] * 60 * 1000,
+    duration: settings[timerOption] * 60 * 1000,
     elapsed: 0
   });
 
   const timerInterval = useRef<NodeJS.Timeout | number>(-1);
   const startTime = useRef(0);
 
-  const minutesRemaining = String(Math.floor(timer.remaining / 60)).padStart(2, '0');
-  const secondsRemaining = String(timer.remaining % 60).padStart(2, '0');
-  const timelineRemaining = map(timer.remaining, 0, timer.remaining, 282.999, 0);
+  const minutesRemaining = String(Math.floor(timer.remaining / 60 / 1000)).padStart(2, '0');
+  const secondsRemaining = String(Math.floor((timer.remaining / 1000) % 60)).padStart(2, '0');
+
+  const timelineRemaining = map(timer.remaining, 0, timer.duration, 282.999, 0);
 
   useEffect(() => {
 
     if (timer.state === 'waiting') {
+
+      setTimer((oldTimer) => ({
+        ...oldTimer,
+        state: 'running',
+      }));
+
       const interval = setInterval(() => {
 
-        const timeElapsed = Math.floor((Date.now() - startTime.current) / 1000);
-        const timeRemaining = (settings[timerOption] * 60) - timeElapsed;
+        const timeElapsed = Date.now() - startTime.current;
+        let timeRemaining = (settings[timerOption] * 60 * 1000) - timeElapsed;
+
+        if (timeRemaining < 0) {
+
+          timeRemaining = 0;
+          clearInterval(timerInterval.current);
+
+          setTimer((oldTimer) => ({
+            ...oldTimer,
+            elapsed: timeElapsed,
+            remaining: timeRemaining,
+            state: 'done'
+          }));
+
+          return;
+        }
 
         setTimer((oldTimer) => ({
           ...oldTimer,
           elapsed: timeElapsed,
-          remaining: timeRemaining,
-          state: 'running'
+          remaining: timeRemaining
         }));
-        timerInterval.current = interval;
-      });
+      }, 500);
+
+      timerInterval.current = interval;
     }
 
   }, [settings, timer, timerOption]);
@@ -48,14 +72,17 @@ export function Timer({timerOption = 'pomodoro'}: TimerProps) {
   useEffect(() => {
 
     clearInterval(timerInterval.current);
-    setTimer(() => ({
+
+    setTimer((prevState) => ({
+      ...prevState,
       state: null,
-      remaining: settings[timerOption] * 60,
+      remaining: settings[timerOption] * 60 * 1000,
+      duration: settings[timerOption] * 60 * 1000,
       elapsed: 0
     }));
   }, [timerOption, settings]);
 
-  function handleToggleInterval() {
+  function handleTimerButton() {
 
     if (timer.state === null) {
 
@@ -74,7 +101,6 @@ export function Timer({timerOption = 'pomodoro'}: TimerProps) {
 
       setTimer((oldTimer) => ({
         ...oldTimer,
-        id: -1,
         state: 'paused'
       }));
     } else if (timer.state === 'paused') {
@@ -84,9 +110,19 @@ export function Timer({timerOption = 'pomodoro'}: TimerProps) {
         state: 'waiting'
       }));
 
-      startTime.current = Date.now() - (timer.elapsed * 1000);
+      startTime.current = Date.now() - timer.elapsed;
+    } else if (timer.state === 'done') {
+
+      setTimer((oldTimer) => ({
+        ...oldTimer,
+        state: null,
+        elapsed: 0,
+        remaining: oldTimer.duration
+      }));
     }
   }
+
+  const timeButtonText = timer.state === null ? 'Start' : timer.state === 'paused' ? 'Resume' : timer.state === 'done' ? 'Reset' : 'Pause';
 
   return (
     <div className={styles.timer}>
@@ -96,7 +132,7 @@ export function Timer({timerOption = 'pomodoro'}: TimerProps) {
       </svg>
       <div className={styles.controls}>
         <div className={styles['time-remaining']}>{minutesRemaining}:{secondsRemaining}</div>
-        <button className={styles['timer-button']} onClick={handleToggleInterval}>{timer.state === null ? 'Start' : timer.state === 'paused' ? 'Resume' : 'Pause'}</button>
+        <button className={styles['timer-button']} onClick={handleTimerButton}>{timeButtonText}</button>
       </div>
     </div>
   );

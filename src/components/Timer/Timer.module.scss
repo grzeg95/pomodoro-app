@@ -1,0 +1,67 @@
+.timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  max-width: 360px;
+  max-height: 360px;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  border-radius: 100vh;
+  border: 20px solid transparent;
+  background:
+    linear-gradient(#151932, #151932) padding-box,
+    linear-gradient(135deg, #151932 30%, #282C51) border-box;
+}
+
+.timeline {
+  stroke-dasharray: 283;
+  /*stroke-dashoffset: 0;*/
+  stroke-linecap: round;
+  transform: rotate(270deg);
+  transform-origin: center;
+  stroke: var(--color-accent);
+}
+
+.controls {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.time-remaining {
+
+  font-size: 2rem;
+  color: #d7e0ff;
+
+  @media (min-width: 250px) {
+    font-size: 3rem;
+  }
+
+  @media (min-width: 360px) {
+    font-size: 4rem;
+  }
+}
+
+.timer-button {
+
+  margin-top: 20px;
+  letter-spacing: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: #d7e0ff;
+  text-transform: uppercase;
+
+  @media (min-width: 250px) {
+    font-size: 1.25rem;
+  }
+
+  @media (min-width: 360px) {
+    font-size: 1.5rem;
+  }
+}

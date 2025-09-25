@@ -2,6 +2,7 @@ import {useState} from 'react';
 import styles from './App.module.scss';
 import iconLogo from './assets/logo.svg';
 import {Selector} from './components/Selector/Selector';
+import {Timer} from './components/Timer/Timer';
 import type {TimerOption} from './models/timer';
 
 export function App() {
@@ -18,6 +19,8 @@ export function App() {
         {value: 'shortBreak', label: 'short break'},
         {value: 'longBreak', label: 'long break'}
       ]} onChange={(value) => setTimerOption(value)} selected='pomodoro'/>
+
+      <Timer timerOption={timerOption}/>
     </div>
   )
 }

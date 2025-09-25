@@ -1,0 +1,179 @@
+.dialog {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  width: 100%;
+  max-width: 540px;
+  border-radius: 1.5rem;
+}
+
+.dialog-header {
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.25rem;
+  padding: 1.5rem 1.5rem 0 1.5rem;
+
+  @media (min-width: 400px) {
+    padding: 2.5rem 2.5rem 0 2.5rem;
+  }
+}
+
+.dialog-content {
+
+  padding: 0 1.5rem 0 1.5rem;
+
+  @media (min-width: 400px) {
+    padding: 0 2.5rem 0 2.5rem;
+  }
+}
+
+.dialog-close-button {
+
+  background: transparent;
+  border: none;
+
+  &:hover,
+  &:focus-visible {
+    svg path {
+      opacity: 1;
+    }
+  }
+}
+
+.dialog-header-title {
+  margin: 0;
+}
+
+.time-settings {
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  .title {
+    text-transform: uppercase;
+  }
+
+  .times-options {
+    display: flex;
+    gap: 1rem;
+  }
+}
+
+.font-settings {
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+
+  .title {
+    text-transform: uppercase;
+  }
+
+  .font-options {
+
+    display: flex;
+    gap: 1rem;
+
+    .font-option {
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem;
+      border-radius: 50%;
+      cursor: pointer;
+      line-height: 1;
+      background: #eef1fa;
+      width: 40px;
+      aspect-ratio: 1;
+      outline: none;
+
+      &:focus-visible {
+        outline: 2px solid var(--color-accent);
+      }
+
+      &.font-option-archivo-black {
+        font-family: 'Archivo Black', sans-serif;
+      }
+
+      &.font-option-roboto {
+        font-family: 'Roboto', sans-serif;
+      }
+
+      &.font-option-epunda-slab {
+        font-family: 'Epunda Slab', sans-serif;
+      }
+
+      &.font-option-selected {
+        background: #13152c;
+        color: white;
+      }
+    }
+  }
+}
+
+.color-settings {
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+
+  .title {
+    text-transform: uppercase;
+  }
+
+  .color-options {
+
+    display: flex;
+    gap: 1rem;
+
+    .color-option {
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem;
+      border-radius: 50%;
+      cursor: pointer;
+      line-height: 1;
+      background: #eef1fa;
+      width: 40px;
+      aspect-ratio: 1;
+
+      &.color-option-6df4f8 {
+        background: #6df4f8;
+      }
+
+      &.color-option-d981f9 {
+        background: #d981f9;
+      }
+
+      &.color-option-f87070 {
+        background: #f87070;
+      }
+
+      &.color-option-selected::before {
+        content: '\2713';
+        display: block;
+        color: black;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+.apply-button {
+
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%) translateY(50%);
+
+  &.apply-button-black {
+    color: black;
+  }
+}

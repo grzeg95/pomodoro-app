@@ -6,3 +6,16 @@
   margin: 37px auto 0 auto;
   align-items: center;
 }
+
+.open-dialog-button {
+
+  background: transparent;
+  border: none;
+
+  &:hover,
+  &:focus-visible {
+    svg path {
+      opacity: 1;
+    }
+  }
+}

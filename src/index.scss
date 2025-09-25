@@ -38,6 +38,16 @@ body {
   font-family: var(--font-family), serif;
 }
 
+#overlay-root {
+  position: fixed;
+  pointer-events: none;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1000;
+}
+
 button {
   cursor: pointer;
 }

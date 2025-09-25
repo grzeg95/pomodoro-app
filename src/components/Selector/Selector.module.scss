@@ -1,0 +1,59 @@
+.selector {
+  display: flex;
+  margin: 0;
+  padding: 0.5rem;
+  list-style: none;
+  position: relative;
+  background: #141932;
+  border-radius: 100vh;
+  z-index: 0;
+  width: 100%;
+}
+
+.selector-item {
+  position: relative;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 15px 20px;
+  font-weight: 800;
+  color: #a6a6a6;
+  transition: color 0.3s;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  flex-grow: 1;
+}
+
+.selector-item-active {
+  color: #141932;
+}
+
+@supports (anchor-name: --foo) {
+
+  .selector-item-active {
+    anchor-name: --selector-item-active;
+  }
+
+  .selector-indicator {
+    position: absolute;
+    position-anchor: --selector-item-active;
+    width: anchor-size(width);
+    height: anchor-size(height);
+    left: anchor(left);
+    transition: left 0.3s, width 0.3s;
+    z-index: -1;
+    background: var(--color-accent);
+    border-radius: 100vh;
+  }
+}
+
+@supports not (anchor-name: --foo) {
+
+  .selector-item-active {
+    background: var(--color-accent);
+    border-radius: 100vh;
+  }
+}
+
+

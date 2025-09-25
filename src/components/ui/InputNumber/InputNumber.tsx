@@ -37,12 +37,12 @@ export function InputNumber({ min, max, value, onChange, label }: InputNumberPro
         <div className={styles['input-number-buttons']}>
           <button className={styles['input-number-button']} onClick={() => validate(value + 1)}>
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="7">
-              <path fill="none" stroke="#1E213F" stroke-opacity=".25" stroke-width="2" d="M1 6l6-4 6 4"/>
+              <path fill="none" stroke="#1E213F" strokeOpacity=".25" strokeWidth="2" d="M1 6l6-4 6 4"/>
             </svg>
           </button>
           <button className={styles['input-number-button']} onClick={() => validate(value - 1)}>
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="7">
-              <path fill="none" stroke="#1E213F" stroke-opacity=".25" stroke-width="2" d="M1 1l6 4 6-4"/>
+              <path fill="none" stroke="#1E213F" strokeOpacity=".25" strokeWidth="2" d="M1 1l6 4 6-4"/>
             </svg>
           </button>
         </div>

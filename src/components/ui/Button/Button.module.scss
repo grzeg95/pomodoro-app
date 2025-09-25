@@ -1,0 +1,17 @@
+.button {
+
+  background: var(--color-accent);
+  border-radius: 0.5rem;
+  padding: 1rem 1.5rem;
+  border: none;
+  color: white;
+
+  .button-text {
+    color: inherit;
+  }
+
+  &:hover,
+  &:focus-visible {
+    background: color-mix(in srgb, var(--color-accent) 80%, black);
+  }
+}

@@ -1,6 +1,7 @@
 .dialog-backdrop {
-  position: fixed;
+  position: absolute;
   inset: 0;
+  pointer-events: auto;
   background-color: rgba(0, 0, 0, 0.5);
 }
 

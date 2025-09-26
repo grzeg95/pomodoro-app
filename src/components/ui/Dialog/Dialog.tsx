@@ -1,6 +1,8 @@
 import {type ReactNode, type RefObject, useEffect, useImperativeHandle, useRef} from 'react';
 import {createPortal} from 'react-dom';
 import {useFocusTrap} from '../../../hooks/useFocusTrap';
+import {mutationObserverScrollVisibility} from '../../../utils/mutationObserverScrollVisibility';
+import {updateScrollVisibility} from '../../../utils/updateScrollVisibility';
 import styles from './Dialog.module.scss';
 
 let dialogIdCounter = 0;
@@ -33,44 +35,11 @@ export function Dialog({children, onClose, isOpen, ref}: DialogProps) {
     };
   }, [onClose]);
 
-  function getScrollbarWidth() {
-
-    const scrollDiv = document.createElement('div');
-
-    scrollDiv.style.visibility = 'hidden';
-    scrollDiv.style.overflow = 'scroll';
-    scrollDiv.style.position = 'absolute';
-    scrollDiv.style.top = '-9999px';
-    scrollDiv.style.width = '100px';
-    scrollDiv.style.height = '100px';
-
-    document.body.appendChild(scrollDiv);
-
-    const scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
-    document.body.removeChild(scrollDiv);
-
-    return scrollbarWidth;
-  }
-
   function isFirstDialog() {
     return dialogStack.indexOf(dialogId.current) === 0;
   }
 
   useEffect(() => {
-
-    function updateScrollVisibility() {
-      const visible = document.documentElement.scrollHeight > window.innerHeight;
-
-      if (visible) {
-        const scrollbarWidth = getScrollbarWidth();
-        document.body.style.paddingRight = `${scrollbarWidth}px`;
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.paddingRight = '0px';
-        document.body.style.overflow = 'auto';
-        document.body.style.overflow = 'auto';
-      }
-    }
 
     if (isOpen) {
 

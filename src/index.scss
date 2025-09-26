@@ -46,6 +46,7 @@ body {
 }
 
 #overlay-root {
+
   position: fixed;
   pointer-events: none;
   top: 0;
@@ -53,6 +54,10 @@ body {
   height: 100%;
   width: 100%;
   z-index: 1000;
+
+  &:empty {
+    display: none;
+  }
 }
 
 button {

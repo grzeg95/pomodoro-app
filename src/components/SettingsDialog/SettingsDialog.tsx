@@ -179,6 +179,7 @@ export function SettingsDialog({ isOpen, onClose } : SettingsDialogProps) {
               ></div>
             </div>
           </div>
+          <hr/>
           <Button onClick={handleApply} className={`${styles['apply-button']} ${settings.theme === '#6df4f8' ? styles['apply-button-black'] : ''}`}>
             Apply
           </Button>

@@ -54,9 +54,13 @@ export function Dialog({children, onClose, isOpen, ref}: DialogProps) {
 
       window.addEventListener('keydown', handleKeyDown);
 
+      let observer: MutationObserver;
+
       if (isFirstDialog()) {
         updateScrollVisibility();
         window.addEventListener('resize', updateScrollVisibility);
+        observer = new MutationObserver(mutationObserverScrollVisibility);
+        observer.observe(document.body, {childList: true, subtree: true});
       }
 
       return () => {
@@ -66,6 +70,7 @@ export function Dialog({children, onClose, isOpen, ref}: DialogProps) {
           document.body.style.paddingRight = '0px';
           document.body.style.overflow = 'auto';
           document.body.style.overflow = 'auto';
+          observer?.disconnect();
         }
 
         window.removeEventListener('keydown', handleKeyDown);

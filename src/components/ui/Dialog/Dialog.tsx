@@ -20,7 +20,6 @@ export type DialogProps = {
 export function Dialog({children, onClose, isOpen, ref}: DialogProps) {
 
   const dialogId = useRef(-1);
-  const dialogRef = useRef<HTMLDivElement>(null);
 
   const trapRef = useFocusTrap({
     active: isOpen
@@ -126,7 +125,7 @@ export function Dialog({children, onClose, isOpen, ref}: DialogProps) {
   return createPortal(
     <>
       <div className={styles['dialog-backdrop']} onClick={() => onClose?.()}/>
-      <div className={styles['dialog-wrapper']} ref={dialogRef}>
+      <div className={styles['dialog-wrapper']}>
         <div className={styles['dialog-pane']} ref={trapRef}>
           {children}
         </div>
